@@ -22,6 +22,7 @@ class FirstFragment : Fragment() {
     private lateinit var mSharedPreferences: SharedPreferences
     var mNumkey:String = "0"
     var mNumero: String = "0"
+    var numkey :Int =0
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -46,18 +47,35 @@ class FirstFragment : Fragment() {
         }
 
          mBinding.btGuardar.setOnClickListener { view ->
-             mNumkey = "1"
+             var numkey :Int
+             var mTexto:String
+             numkey =mNumkey.toInt()+1
+             mNumkey = numkey.toString()
              mNumero = mBinding.edtNumero.text.toString()
             GrabarPreference(mNumkey, mNumero.toInt())
 
-             mBinding.tventero.text = "Se guardó: " + mSharedPreferences.getInt("1",0).toString()
+             mBinding.tventero.text = "Se guardó: " + mSharedPreferences.getInt(mNumkey,0).toString()
+
+             mTexto = mBinding.edtTexto.text.toString()
+             numkey =mNumkey.toInt()+1
+             mNumkey = numkey.toString()
+             GrabarPreferenceTexto(mNumkey, mTexto)
+             mBinding.tvTexto.text = "Se guardó: " + mSharedPreferences.getString(mNumkey,"NA")
+
                 }
 
 
         mBinding.btBorrar.setOnClickListener {
             BorrarPreference(mNumkey)
-            mBinding.tventero.text = "Se eliminó: " + mSharedPreferences.getInt("1",0).toString()
+            mBinding.tventero.text = "Se eliminó: " + mSharedPreferences.getInt(mNumkey,0).toString()
         }
+
+    }
+
+    private fun GrabarPreferenceTexto(pClave: String, pValor: String) {
+        mSharedPreferences.edit().putString(pClave, pValor).apply()
+        Toast.makeText(this.activity,"Botong ${pValor}",Toast.LENGTH_LONG).show()
+        Log.d("btnguardar", "Guardado")
 
     }
 
