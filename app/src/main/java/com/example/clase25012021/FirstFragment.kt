@@ -49,21 +49,23 @@ class FirstFragment : Fragment() {
              mNumkey = "1"
              mNumero = mBinding.edtNumero.text.toString()
             GrabarPreference(mNumkey, mNumero.toInt())
-             Log.d("btnguardar", "Selected")
+
              mBinding.tventero.text = "Se guardó: " + mSharedPreferences.getInt("1",0).toString()
                 }
 
 
         mBinding.btBorrar.setOnClickListener {
-            BorrarPreference(mNumkey,mNumero.toInt())
-            Toast.makeText(this.activity,"Botonb ${mNumkey}",Toast.LENGTH_LONG).show()
-            Log.d("btnborrar", "Selected")
+            BorrarPreference(mNumkey)
+            mBinding.tventero.text = "Se eliminó: " + mSharedPreferences.getInt("1",0).toString()
         }
 
     }
 
-    private fun BorrarPreference(mNumkey: String, mNumero: Int) {
-
+    private fun BorrarPreference(pClave: String) {
+        Log.d("btnborrar", "Selected")
+        mSharedPreferences.edit().remove(pClave).apply()
+        Toast.makeText(this.activity,"Botonb ${pClave}",Toast.LENGTH_LONG).show()
+        Log.d("btnborrar", "Borrado")
     }
 
     fun GrabarPreference(pClave: String, pValor: Int) {
